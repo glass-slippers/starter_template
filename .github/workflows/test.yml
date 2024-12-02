@@ -1,0 +1,78 @@
+name: Test
+
+on:
+  push:
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Install Rust
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+
+      - name: Use binstall
+        uses: cargo-bins/cargo-binstall@main
+
+      - name: Install cargo-leptos
+        run: |
+          cargo binstall cargo-leptos -y
+          rustup target add wasm32-unknown-unknown  
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+          cache-dependency-path: end2end/package-lock.json
+
+      - name: Cache Playwright browsers
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: ${{ runner.os }}-playwright-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-playwright-
+
+      - name: Install npm dependencies and playwright
+        working-directory: end2end
+        run: |
+          npm ci
+          npx playwright install --with-deps
+      
+      - name: Rust cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cargo/bin/
+            ~/.cargo/registry/index/
+            ~/.cargo/registry/cache/
+            ~/.cargo/git/db/
+            target/
+          key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+      
+      - name: Build example
+        run: cargo leptos build --release
+      
+      - name: Run server in background
+        run: ./target/release/tauri2-leptos-7-axum-sea-orm-bin &
+
+      - name: Run playwright tests
+        run: npx playwright test
+
+      - name: Tar Server Bundle
+        run: |
+          mkdir -p app/target/site
+          cp target/release/tauri2-leptos-7-axum-sea-orm-bin app/
+          cp -r target/site app/target
+          tar -cvf app.tar -C app .
+
+      - name: Upload App Bundle
+        uses: actions/upload-artifact@v4
+        with:
+          name: server-tar
+          path: app.tar
+
