@@ -5,7 +5,7 @@ async fn main() {
     use leptos::logging::log;
     use leptos::prelude::*;
     use leptos_axum::{generate_route_list, LeptosRoutes};
-    use tauri2_leptos7_axum_sea_orm::app::*;
+    use starter_template::app::*;
     use tower_http::cors::CorsLayer;
 
     let conf = get_configuration(None).unwrap();
