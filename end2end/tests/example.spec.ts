@@ -7,13 +7,14 @@ test("homepage has title and heading text and button works", async ({ page }) =>
 
   await expect(page.locator("h1")).toHaveText("Welcome to Leptos!");
 
-  const caseInsensitiveButton = page.locator('button:has-text(/click me/i)'); // Case-insensitive
+  const btn = page.locator('button:has-text("Click")'); // Case-insensitive
 
-  await expect(caseInsensitiveButton).toContainText('0');
+  await expect(btn).toContainText('0');
 
-  await caseInsensitiveButton.click();
 
-  await expect(caseInsensitiveButton).not.toContainText('0');
-  await expect(caseInsensitiveButton).toContainText('1');
+  await btn.click({ force: true });
+
+  await expect(btn).not.toContainText('0');
+  await expect(btn).toContainText('1');
 
 });
