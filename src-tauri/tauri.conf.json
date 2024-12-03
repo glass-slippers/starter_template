@@ -5,7 +5,7 @@
   "identifier": "asd",
   "build": {
     "frontendDist": "../app/dist",
-    "devUrl": "http://127.0.0.1:5000",
+    "devUrl": "http://127.0.0.1:3000",
     "beforeDevCommand": "",
     "beforeBuildCommand": "pwd && cd .. && trunk build --no-default-features -v --features csr "
   },

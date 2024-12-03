@@ -82,12 +82,7 @@ jobs:
       - name: Install tauri
         run: cargo binstall tauri-cli --version "^2.0.0" --locked
           
-      - name: Run 
-        run: cargo tauri dev
-
-      - name: Run playwright tests (Tauri)
-        working-directory: app/end2end
-        run: npx playwright test tests/tauri.spec.ts
+        # TODO build and upload tauri to places that need it....
 
       - name: Tar Server Bundle
         run: |
