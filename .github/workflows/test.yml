@@ -62,8 +62,8 @@ jobs:
         run: ./target/release/starter_template &
 
       - name: Run playwright tests (Web)
-        working-directory: app
-        run: npx playwright test -- --baseURL=http://localhost:3000
+        working-directory: app/end2end
+        run: npx playwright test tests/web.spec.ts
 
       - name: Setup Linux for Tauris
         run: |
@@ -86,8 +86,8 @@ jobs:
         run: cargo tauri dev
 
       - name: Run playwright tests (Tauri)
-        working-directory: app
-        run: npx playwright test -- --baseURL=http://localhost:5000
+        working-directory: app/end2end
+        run: npx playwright test tests/tauri.spec.ts
 
       - name: Tar Server Bundle
         run: |
