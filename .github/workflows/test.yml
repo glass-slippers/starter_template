@@ -27,7 +27,7 @@ jobs:
         with:
           node-version: 20
           cache: 'npm'
-          cache-dependency-path: end2end/package-lock.json
+          cache-dependency-path: app/end2end/package-lock.json
 
       - name: Cache Playwright browsers
         uses: actions/cache@v4
@@ -54,14 +54,14 @@ jobs:
             target/
           key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
       
-      - name: Build example
+      - name: Build App
         working-directory: app
         run: cargo leptos build --release
       
       - name: Run server in background
         run: ./target/release/starter_template &
 
-      - name: Run playwright tests
+      - name: Run playwright tests (Web)
         run: npx playwright test -- --baseURL=http://localhost:3000
 
       - name: Setup Linux for Tauris
@@ -84,7 +84,7 @@ jobs:
       - name: Run 
         run: cargo tauri dev
 
-      - name: Run playwright tests against Tauri
+      - name: Run playwright tests (Tauri)
         run: npx playwright test -- --baseURL=http://localhost:5000
 
       - name: Tar Server Bundle
