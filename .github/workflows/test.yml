@@ -59,7 +59,7 @@ jobs:
         run: cargo leptos build --release
       
       - name: Run server in background
-        run: ./target/release/starter_template &
+        run: ./target/release/starter-template-bin &
 
       - name: Run playwright tests (Web)
         working-directory: app/end2end
