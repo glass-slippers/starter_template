@@ -68,16 +68,16 @@ jobs:
       - name: Setup Linux for Tauris
         run: |
           sudo apt update
-          sudo apt install -y 
-          libwebkit2gtk-4.1-dev 
-          build-essential 
-          curl 
-          wget 
-          file 
-          libxdo-dev 
-          libssl-dev 
-          libayatana-appindicator3-dev 
-          librsvg2-dev
+          sudo apt install -y \
+          libwebkit2gtk-4.1-dev \
+          build-essential \
+          curl \
+          wget \
+          file \
+          libxdo-dev \
+          libssl-dev \
+          libayatana-appindicator3-dev \
+          librsvg2-dev \
 
       - name: Install tauri
         run: cargo binstall tauri-cli --version "^2.0.0" --locked
@@ -92,7 +92,7 @@ jobs:
       - name: Tar Server Bundle
         run: |
           mkdir -p app_tar/target/site
-          cp target/release/starter_template app_tar/
+          cp target/release/starter-template-bin app_tar/
           cp -r target/site app_tar/target
           tar -cvf app.tar -C app_tar .
 
