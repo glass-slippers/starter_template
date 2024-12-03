@@ -4,10 +4,10 @@
   "version": "0.1.0",
   "identifier": "asd",
   "build": {
-    "frontendDist": "../dist",
-    "devUrl": "http://127.0.0.1:3000",
+    "frontendDist": "../app/dist",
+    "devUrl": "http://127.0.0.1:5000",
     "beforeDevCommand": "",
-    "beforeBuildCommand": "cd .. && trunk build --no-default-features -v --features csr && cp target/site/pkg/starter-template.css dist/ "
+    "beforeBuildCommand": "pwd && cd .. && trunk build --no-default-features -v --features csr "
   },
   "app": {
     "windows": [

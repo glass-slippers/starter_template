@@ -15,6 +15,7 @@ pub fn shell(options: LeptosOptions) -> impl IntoView {
                 <AutoReload options=options.clone() />
                 <HydrationScripts options/>
                 <MetaTags/>
+                <Stylesheet id="leptos" href="/pkg/starter-template.css"/>
             </head>
             <body>
                 <App/>
@@ -29,12 +30,11 @@ pub fn App() -> impl IntoView {
     provide_meta_context();
 
     view! {
-        // injects a stylesheet into the document <head>
-        // id=leptos means cargo-leptos will hot-reload this stylesheet
-        <Stylesheet id="leptos" href="/pkg/starter-template.css"/>
 
         // sets the document title
         <Title text="Welcome to Leptos"/>
+
+
 
         // content for this welcome page
         <Router>
@@ -66,7 +66,7 @@ fn HomePage() -> impl IntoView {
     };
 
     view! {
-        <h1>"Welcome to Leptos!"</h1>
+        <h1 class="text-xl">"Welcome to Leptos!"</h1>
         <button on:click=on_click>"Click Me: " {move || count.get()}</button>
     }
 }

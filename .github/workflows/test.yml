@@ -38,7 +38,7 @@ jobs:
             ${{ runner.os }}-playwright-
 
       - name: Install npm dependencies and playwright
-        working-directory: end2end
+        working-directory: app/end2end
         run: |
           npm ci
           npx playwright install --with-deps
@@ -55,20 +55,44 @@ jobs:
           key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
       
       - name: Build example
+        working-directory: app
         run: cargo leptos build --release
       
       - name: Run server in background
-        run: ./target/release/tauri2-leptos-7-axum-sea-orm-bin &
+        run: ./target/release/starter_template &
 
       - name: Run playwright tests
-        run: npx playwright test
+        run: npx playwright test -- --baseURL=http://localhost:3000
+
+      - name: Setup Linux for Tauris
+        run: |
+          sudo apt update
+          sudo apt install -y 
+          libwebkit2gtk-4.1-dev 
+          build-essential 
+          curl 
+          wget 
+          file 
+          libxdo-dev 
+          libssl-dev 
+          libayatana-appindicator3-dev 
+          librsvg2-dev
+
+      - name: Install tauri
+        run: cargo binstall tauri-cli --version "^2.0.0" --locked
+          
+      - name: Run 
+        run: cargo tauri dev
+
+      - name: Run playwright tests against Tauri
+        run: npx playwright test -- --baseURL=http://localhost:5000
 
       - name: Tar Server Bundle
         run: |
-          mkdir -p app/target/site
-          cp target/release/tauri2-leptos-7-axum-sea-orm-bin app/
-          cp -r target/site app/target
-          tar -cvf app.tar -C app .
+          mkdir -p app_tar/target/site
+          cp target/release/starter_template app_tar/
+          cp -r target/site app_tar/target
+          tar -cvf app.tar -C app_tar .
 
       - name: Upload App Bundle
         uses: actions/upload-artifact@v4

@@ -42,7 +42,7 @@ async fn main() {
 
 #[cfg(all(feature = "csr", not(feature = "ssr")))]
 pub fn main() {
-    use tauri2_leptos7_axum_sea_orm::app::*;
+    use starter_template::app::*;
     // TODO use config file to specify?
     server_fn::client::set_server_url("http://127.0.0.1:3000");
     console_error_panic_hook::set_once();
